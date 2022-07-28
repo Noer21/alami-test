@@ -11,7 +11,6 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -21,3 +20,40 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Gradle
+.gradle
+build/
+classes/
+bin/
+out/
+
+# Eclipse
+**/.DS_Store
+.settings/
+.project
+.classpath
+
+# IntelliJ
+.idea
+*.iml
+*.ipr
+*.iws
+
+# temp files from building in gradle
+*/tmp/*
+
+#Viscode
+.vscode/
+.vscode/settings.json
+
+# vim
+*.swp
+
+**/.rdb
+
+node_modules/
+yarn.lock
+
+# postgres data from docker
+**/postgres_data/
