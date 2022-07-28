@@ -1,5 +1,5 @@
 # alami-test
-Bank Data code to calculate average balance, assing free transfer quota and distribute bonus balance to several user's accounts using Java 8.
+Bank Data code to calculate average balance, assign free transfer quota and distribute bonus balance to several user's accounts using Java 8.
 
 ## Assumstion list
 Due to limited time given and my current schedule seemly tight, I unable to verify few things. Hence I'll list assumtions that made during developing this program
