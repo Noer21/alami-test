@@ -17,48 +17,48 @@ public class BankService {
         try {
             data = dao.getBankData();
         } catch (Exception e) {
-            System.out.println("Failed to read data" + e);
+            //Add monitoring alert
+            System.out.println("Failed to read data " + e);
             return;
         }
 
         final ExecutorService executorService1 = Executors.newFixedThreadPool(20);
         final ExecutorService executorService2 = Executors.newFixedThreadPool(8);
-        LinkedHashSet<Long> threadIdHash = new LinkedHashSet<>();
-        List<Long> threadIdList = new ArrayList<>();
         CountDownLatch latch1 = new CountDownLatch(data.size());
 
         //Handle Question 1, 2a, and 2b
         for (BankData row : data) {
             executorService1.execute(() -> {
-                Long id = Thread.currentThread().getId();
-                if (threadIdHash.add(id)) threadIdList.add(id);
-                int threadNum = threadIdList.indexOf(id) + 1;
+                int threadNum = (int) Thread.currentThread().getId();
                 question1Handler(row, threadNum);
                 question2Handler(row, threadNum);
                 latch1.countDown();
             });
         }
 
+        try {
+            latch1.await();
+        } catch (InterruptedException e) {
+            System.out.println("Failed to process on question 1 to 2b " + e);
+            //Add monitoring alert
+        }
+
         //Handle question 3
         CountDownLatch latch2 = new CountDownLatch(data.size());
-        LinkedHashSet<Long> threadIdHash2 = new LinkedHashSet<>();
-        List<Long> threadIdList2 = new ArrayList<>();
         for (BankData row : data) {
             final int additional = data.indexOf(row) < 100 ? 100 : 0;
             executorService2.execute(() -> {
-                Long id = Thread.currentThread().getId();
-                if (threadIdHash2.add(id)) threadIdList2.add(id);
-                int threadNum = threadIdList2.indexOf(id) + 1;
+                int threadNum = (int) Thread.currentThread().getId();
                 question3Handler(row, threadNum, additional);
                 latch2.countDown();
             });
         }
 
         try {
-            latch1.await();
             latch2.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Failed to process on question 3 " + e);
+            //Add monitoring alert
         }
 
         dao.saveBankData(data);

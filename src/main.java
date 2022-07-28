@@ -9,5 +9,6 @@ public class main {
     public static void main(String[] args) {
         BankService service = new BankService();
         service.processRequest();
+        System.exit(0);
     }
 }

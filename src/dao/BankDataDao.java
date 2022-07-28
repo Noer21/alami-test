@@ -27,7 +27,8 @@ public class BankDataDao {
     }
 
     public void saveBankData(List<BankData> bankDataList) {
-        File csvOutputFile = new File("After Eod.csv");
+        String filename = "After Eod.csv";
+        File csvOutputFile = new File(filename);
         try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
             List<String> rows = bankDataList.stream()
                 .map(this::toCsvRow)
@@ -37,7 +38,7 @@ public class BankDataDao {
         } catch (Exception e) {
             return;
         }
-        System.out.println(csvOutputFile.exists());
+        System.out.println("Success save file as " + filename);
     }
 
     private String toCsvRow(BankData data) {
